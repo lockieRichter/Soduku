@@ -1,4 +1,6 @@
 import fileinput
+import boards
+import soduku_solver
 
 from soduku_board import Soduku
 
@@ -18,10 +20,21 @@ print("Welcome to Soduku solver...")
 print("Please enter the Soduku board in rows of 9, separating numbers with a space.")
 print("Enter 0 for any number that is unknown.")
 
-board = read_board_in()
+# board = read_board_in()
 
-soduku = Soduku(board)
+soduku = Soduku(boards.initial)
 
 print("You entered the following board..")
 soduku.print_board()
 print("Is that correct? (yes/no)")
+
+possible_values = soduku_solver.get_possible_values(soduku, 0, 1)
+
+
+#for i in range(9):
+#    for j in range(9):
+#        possible_values = soduku_solver.get_possible_values(soduku, i, j)
+#        if len(possible_values) == 1:
+#            soduku.add_cell(i, j, possible_values[0])
+#
+#soduku.print_board()

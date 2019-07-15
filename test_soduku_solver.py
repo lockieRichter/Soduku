@@ -59,3 +59,13 @@ def test_verify_board_with_valid():
 def test_verify_board_with_invalid():
     soduku_board = Soduku(boards.invalid)
     assert not soduku_solver.verify_board(soduku_board)
+
+
+def test_non_zero_with_zero():
+    zero = 0
+    assert not soduku_solver.non_zero(zero)
+
+
+def test_non_zero_with_non_zero():
+    not_zero = 9
+    assert soduku_solver.non_zero(not_zero)

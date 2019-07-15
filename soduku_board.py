@@ -23,3 +23,4 @@ class Soduku:
 
     def add_cell(self, row, column, value):
         self.board[row][column] = value
+
