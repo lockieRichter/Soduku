@@ -50,4 +50,3 @@ def test_get_box_with_valid():
     box9 = soduku_board.get_box(6, 6)
     expected_box9 = array([[0, 7, 0], [1, 9, 5], [0, 0, 0]])
     assert box9.all() == expected_box9.all()
-
