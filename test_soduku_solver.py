@@ -69,3 +69,16 @@ def test_non_zero_with_zero():
 def test_non_zero_with_non_zero():
     not_zero = 9
     assert soduku_solver.non_zero(not_zero)
+
+
+def test_get_possible_values_with_initial():
+    soduku_board = Soduku(boards.initial)
+
+    possible_values = soduku_solver.get_possible_values(soduku_board, 0, 2)
+    assert possible_values == [1, 2, 4]
+
+    possible_values = soduku_solver.get_possible_values(soduku_board, 0, 1)
+    assert possible_values == [3]
+
+    possible_values = soduku_solver.get_possible_values(soduku_board, 8, 8)
+    assert possible_values == [9]

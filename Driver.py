@@ -28,9 +28,11 @@ print("You entered the following board..")
 soduku.print_board()
 print("Is that correct? (yes/no)")
 
-possible_values = soduku_solver.get_possible_values(soduku, 0, 1)
+possible_values = soduku_solver.get_possible_values(soduku, 0, 2)
 
+print(possible_values)
 
+# TODO Reimplement this functionality in the solver.
 #for i in range(9):
 #    for j in range(9):
 #        possible_values = soduku_solver.get_possible_values(soduku, i, j)

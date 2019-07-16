@@ -1,5 +1,6 @@
 from numpy import unique
 from numpy import array
+from itertools import chain
 
 
 def verify_row(soduku, row):
@@ -62,25 +63,21 @@ def get_possible_values(soduku, row, column):
     all_values = [1, 2, 3, 4, 5, 6, 7, 8, 9]
     possible_values = []
 
-    row_values = array(list(filter(non_zero, soduku.board[row, :]))).flatten()
-    column_values = array(list(filter(non_zero, soduku.board[:, column]))).flatten()
+    if soduku.board[row][column] != 0:
+        possible_values.append(soduku.board[row][column])
+    else:
+        row_values = soduku.board[row, :].flatten()
+        column_values = soduku.board[:, column].flatten()
+        box_values = soduku.get_box(row, column).flatten()
 
-    if row % 3 == 0:
-        box = soduku.board[0:3, :]
-    elif row % 3 == 1:
-        box = soduku.board[4:6, :]
-    elif row % 3 == 2:
-        box = soduku.board[7:9, :]
+        used_values = unique(list(filter(non_zero, chain(row_values, column_values, box_values))))
 
-    if column % 3 == 0:
-        box = box[:, 0:3]
-    elif column % 3 == 1:
-        box = box[:, 4:6]
-    elif column % 3 == 2:
-        box = box[:, 7:9]
+        for value in all_values:
+            if value not in used_values:
+                possible_values.append(value)
 
-    box_values = list(filter(non_zero, array(list(box)).flatten()))
+    return possible_values
 
-    #TODO Need to verify these values.
+
 
 

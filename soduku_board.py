@@ -25,18 +25,18 @@ class Soduku:
         self.board[row][column] = value
 
     def get_box(self, row, column):
-        if row % 3 == 0:
+        if row // 3 == 0:
             box = self.board[0:3, :]
-        elif row % 3 == 1:
+        elif row // 3 == 1:
             box = self.board[4:6, :]
-        elif row % 3 == 2:
+        elif row // 3 == 2:
             box = self.board[7:9, :]
 
-        if column % 3 == 0:
+        if column // 3 == 0:
             box = box[:, 0:3]
-        elif column % 3 == 1:
+        elif column // 3 == 1:
             box = box[:, 4:6]
-        elif column % 3 == 2:
+        elif column // 3 == 2:
             box = box[:, 7:9]
 
         return box
