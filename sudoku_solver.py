@@ -1,35 +1,34 @@
 from numpy import unique
-from numpy import array
 from itertools import chain
 
 
-def verify_row(soduku, row):
-    row_values = soduku.board[row][:]
+def verify_row(sudoku, row):
+    row_values = sudoku.board[row][:]
     if len(row_values) > len(set(row_values)):
         return False
     else:
         return True
 
 
-def verify_column(soduku, column):
-    column_values = soduku.board[:][column]
+def verify_column(sudoku, column):
+    column_values = sudoku.board[:][column]
     if len(column_values) > len(set(column_values)):
         return False
     else:
         return True
 
 
-def verify_box(soduku, box):
+def verify_box(sudoku, box):
     d = box // 3
     r = box % 3
     box_values = None
 
     if d == 0:
-        box_values = soduku.board[:, :3]
+        box_values = sudoku.board[:, :3]
     elif d == 1:
-        box_values = soduku.board[:, 3:6]
+        box_values = sudoku.board[:, 3:6]
     elif d == 2:
-        box_values = soduku.board[:, 6:]
+        box_values = sudoku.board[:, 6:]
 
     if r == 0:
         box_values = box_values[:3, :]
@@ -44,9 +43,9 @@ def verify_box(soduku, box):
         return True
 
 
-def verify_board(soduku):
+def verify_board(sudoku):
     for i in range(9):
-        if not (verify_row(soduku, i) and verify_column(soduku, i) and verify_box(soduku, i)):
+        if not (verify_row(sudoku, i) and verify_column(sudoku, i) and verify_box(sudoku, i)):
             return False
         else:
             return True
@@ -59,16 +58,16 @@ def non_zero(value):
         return False
 
 
-def get_possible_values(soduku, row, column):
+def get_possible_values(sudoku, row, column):
     all_values = [1, 2, 3, 4, 5, 6, 7, 8, 9]
     possible_values = []
 
-    if soduku.board[row][column] != 0:
-        possible_values.append(soduku.board[row][column])
+    if sudoku.board[row][column] != 0:
+        possible_values.append(sudoku.board[row][column])
     else:
-        row_values = soduku.board[row, :].flatten()
-        column_values = soduku.board[:, column].flatten()
-        box_values = soduku.get_box(row, column).flatten()
+        row_values = sudoku.board[row, :].flatten()
+        column_values = sudoku.board[:, column].flatten()
+        box_values = sudoku.get_box(row, column).flatten()
 
         used_values = unique(list(filter(non_zero, chain(row_values, column_values, box_values))))
 

@@ -1,7 +1,7 @@
 from numpy import array
 
 
-class Soduku:
+class Sudoku:
 
     def __init__(self, board):
         self.board = array(board)

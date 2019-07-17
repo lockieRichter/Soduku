@@ -1,8 +1,8 @@
 import fileinput
 import boards
-import soduku_solver
+import sudoku_solver
 
-from soduku_board import Soduku
+from sudoku_board import Sudoku
 
 
 def read_board_in():
@@ -22,13 +22,13 @@ print("Enter 0 for any number that is unknown.")
 
 # board = read_board_in()
 
-soduku = Soduku(boards.initial)
+sudoku = Sudoku(boards.initial)
 
 print("You entered the following board..")
-soduku.print_board()
+sudoku.print_board()
 print("Is that correct? (yes/no)")
 
-possible_values = soduku_solver.get_possible_values(soduku, 0, 2)
+possible_values = sudoku_solver.get_possible_values(sudoku, 0, 2)
 
 print(possible_values)
 
