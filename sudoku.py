@@ -1,8 +1,7 @@
 import fileinput
-import boards
-import sudoku_solver
+from sudoku import sudoku_solver, boards
 
-from sudoku_board import Sudoku
+from sudoku.sudoku_board import Sudoku
 
 
 def read_board_in():

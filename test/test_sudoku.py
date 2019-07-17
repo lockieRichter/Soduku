@@ -1,6 +1,6 @@
 import pytest
-import boards
-from sudoku_board import Sudoku
+from sudoku import boards
+from sudoku.sudoku_board import Sudoku
 from numpy import array
 
 
@@ -50,3 +50,11 @@ def test_get_box_with_valid():
     box9 = sudoku_board.get_box(6, 6)
     expected_box9 = array([[0, 7, 0], [1, 9, 5], [0, 0, 0]])
     assert box9.all() == expected_box9.all()
+
+
+def test_print_board(capsys):
+    sudoku_board = Sudoku(boards.initial)
+    sudoku_board.print_board()
+    expected = boards.printed_board
+    out, err = capsys.readouterr()
+    assert out == expected

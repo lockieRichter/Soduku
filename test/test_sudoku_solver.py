@@ -1,6 +1,5 @@
-import boards
-import sudoku_solver
-from sudoku_board import Sudoku
+from sudoku import sudoku_solver, boards
+from sudoku.sudoku_board import Sudoku
 
 
 def test_verify_row_with_valid_rows():
