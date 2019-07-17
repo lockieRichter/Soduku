@@ -4,18 +4,12 @@ from itertools import chain
 
 def verify_row(sudoku, row):
     row_values = sudoku.board[row][:]
-    if len(row_values) > len(set(row_values)):
-        return False
-    else:
-        return True
+    return len(row_values) <= len(set(row_values))
 
 
 def verify_column(sudoku, column):
     column_values = sudoku.board[:][column]
-    if len(column_values) > len(set(column_values)):
-        return False
-    else:
-        return True
+    return len(column_values) <= len(set(column_values))
 
 
 def verify_box(sudoku, box):
@@ -37,25 +31,18 @@ def verify_box(sudoku, box):
     elif r == 2:
         box_values = box_values[6:, :]
 
-    if len(unique(box_values)) != 9:
-        return False
-    else:
-        return True
+    return len(unique(box_values)) == 9
 
 
 def verify_board(sudoku):
     for i in range(9):
         if not (verify_row(sudoku, i) and verify_column(sudoku, i) and verify_box(sudoku, i)):
             return False
-        else:
-            return True
+    return True
 
 
 def non_zero(value):
-    if value != 0:
-        return True
-    else:
-        return False
+    return value != 0
 
 
 def get_possible_values(sudoku, row, column):
@@ -76,7 +63,3 @@ def get_possible_values(sudoku, row, column):
                 possible_values.append(value)
 
     return possible_values
-
-
-
-
