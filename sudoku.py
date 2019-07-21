@@ -27,15 +27,5 @@ print("You entered the following board..")
 sudoku.print_board()
 print("Is that correct? (yes/no)")
 
-possible_values = sudoku_solver.get_possible_values(sudoku, 0, 2)
-
-print(possible_values)
-
-# TODO Reimplement this functionality in the solver.
-#for i in range(9):
-#    for j in range(9):
-#        possible_values = soduku_solver.get_possible_values(soduku, i, j)
-#        if len(possible_values) == 1:
-#            soduku.add_cell(i, j, possible_values[0])
-#
-#soduku.print_board()
+sudoku_solver.solve_all_single_value_cells(sudoku)
+sudoku.print_board()

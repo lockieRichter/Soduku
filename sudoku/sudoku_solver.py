@@ -45,7 +45,7 @@ def non_zero(value):
     return value != 0
 
 
-def get_possible_values(sudoku, row, column):
+def get_possible_cell_values(sudoku, row, column):
     all_values = [1, 2, 3, 4, 5, 6, 7, 8, 9]
     possible_values = []
 
@@ -63,3 +63,12 @@ def get_possible_values(sudoku, row, column):
                 possible_values.append(value)
 
     return possible_values
+
+
+def solve_all_single_value_cells(sudoku):
+    for row in range(9):
+        for column in range(9):
+            values = get_possible_cell_values(sudoku, row, column)
+            print(values)
+            if len(values) == 1:
+                sudoku.add_cell(row, column, values[0])

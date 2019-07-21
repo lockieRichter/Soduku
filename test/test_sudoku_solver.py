@@ -70,14 +70,14 @@ def test_non_zero_with_non_zero():
     assert sudoku_solver.non_zero(not_zero)
 
 
-def test_get_possible_values_with_initial():
+def test_get_possible_cell_values_with_initial():
     sudoku_board = Sudoku(boards.initial)
 
-    possible_values = sudoku_solver.get_possible_values(sudoku_board, 0, 2)
+    possible_values = sudoku_solver.get_possible_cell_values(sudoku_board, 0, 2)
     assert possible_values == [1, 2, 4]
 
-    possible_values = sudoku_solver.get_possible_values(sudoku_board, 0, 1)
+    possible_values = sudoku_solver.get_possible_cell_values(sudoku_board, 0, 1)
     assert possible_values == [3]
 
-    possible_values = sudoku_solver.get_possible_values(sudoku_board, 8, 8)
+    possible_values = sudoku_solver.get_possible_cell_values(sudoku_board, 8, 8)
     assert possible_values == [9]
