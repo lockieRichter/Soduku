@@ -1,5 +1,6 @@
 from sudoku import sudoku_solver, boards
 from sudoku.sudoku_board import Sudoku
+from numpy import array
 
 
 def test_verify_row_with_valid_rows():
@@ -81,3 +82,11 @@ def test_get_possible_cell_values_with_initial():
 
     possible_values = sudoku_solver.get_possible_cell_values(sudoku_board, 8, 8)
     assert possible_values == [9]
+
+
+def test_solve_all_single_value_cells_with_initial():
+    sudoku_board = Sudoku(boards.initial)
+    sudoku_solver.solve_all_single_value_cells(sudoku_board)
+    solved_board = sudoku_board.board
+    expected_board = boards.initial_single_values_solved
+    assert array(expected_board).all() == solved_board.all()

@@ -66,9 +66,12 @@ def get_possible_cell_values(sudoku, row, column):
 
 
 def solve_all_single_value_cells(sudoku):
-    for row in range(9):
-        for column in range(9):
-            values = get_possible_cell_values(sudoku, row, column)
-            print(values)
-            if len(values) == 1:
-                sudoku.add_cell(row, column, values[0])
+    solved_value = True
+    while solved_value:
+        solved_value = False
+        for row in range(9):
+            for column in range(9):
+                values = get_possible_cell_values(sudoku, row, column)
+                if len(values) == 1 and sudoku.board[row][column] == 0:
+                    sudoku.add_cell(row, column, values[0])
+                    solved_value = True
