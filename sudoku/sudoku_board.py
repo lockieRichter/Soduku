@@ -28,15 +28,15 @@ class Sudoku:
         if row // 3 == 0:
             box = self.board[0:3, :]
         elif row // 3 == 1:
-            box = self.board[4:6, :]
+            box = self.board[3:6, :]
         elif row // 3 == 2:
-            box = self.board[7:9, :]
+            box = self.board[6:9, :]
 
         if column // 3 == 0:
             box = box[:, 0:3]
         elif column // 3 == 1:
-            box = box[:, 4:6]
+            box = box[:, 3:6]
         elif column // 3 == 2:
-            box = box[:, 7:9]
+            box = box[:, 6:9]
 
         return box

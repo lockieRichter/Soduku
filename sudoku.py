@@ -19,13 +19,22 @@ print("Welcome to Soduku solver...")
 print("Please enter the Soduku board in rows of 9, separating numbers with a space.")
 print("Enter 0 for any number that is unknown.")
 
-# board = read_board_in()
+board = read_board_in()
 
-sudoku = Sudoku(boards.initial)
+sudoku = Sudoku(board)
 
-print("You entered the following board..")
+print("You entered the following board...")
 sudoku.print_board()
 print("Is that correct? (yes/no)")
 
+correct = input()
+if correct.strip() != "yes":
+    board = read_board_in()
+
 sudoku_solver.solve_all_single_value_cells(sudoku)
-sudoku.print_board()
+
+if sudoku_solver.verify_board(sudoku):
+    print("Have completed the board with the following solution...")
+    sudoku.print_board()
+else:
+    print("Could not solve board using single values...")
