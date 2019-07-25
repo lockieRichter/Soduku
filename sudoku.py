@@ -24,9 +24,9 @@ print("Welcome to Soduku solver...")
 print("Please enter the Soduku board in rows of 9, separating numbers with a space.")
 print("Enter 0 for any number that is unknown.")
 
-board = read_board_in()
+# board = read_board_in()
 
-sudoku = Sudoku(board)
+sudoku = Sudoku(boards.unsolved_hard)
 
 print("You entered the following board...")
 sudoku.print_board()

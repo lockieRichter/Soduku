@@ -75,3 +75,38 @@ def solve_all_single_value_cells(sudoku):
                 if len(values) == 1 and sudoku.board[row][column] == 0:
                     sudoku.add_cell(row, column, values[0])
                     solved_value = True
+
+
+# TODO: Need to finish implementing solver for unique cadidates.
+def solve_all_unique_value_cells(sudoku):
+    for row in range(9):
+        for column in range(9):
+            if sudoku.board[row, column] == 0:
+                possible_values = get_possible_cell_values(sudoku, row, column)
+
+
+# TODO: Need to finish implementing solver for unique cadidates.
+def check_for_unique_candidate(sudoku, row, column):
+    first = [0, 1, 2]
+    second = [3, 4, 5]
+    third = [6, 7, 8]
+
+    if row // 3 == 0:
+        rows = first
+    elif row // 3 == 1:
+        rows = second
+    elif row // 3 == 2:
+        rows = third
+
+    rows.remove(row)
+
+    if column // 3 == 0:
+        columns = first
+    elif column // 3 == 1:
+        columns = second
+    elif column // 3 ==2:
+        columns= third
+
+    columns.remove(column)
+
+

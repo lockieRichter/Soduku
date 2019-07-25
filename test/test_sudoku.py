@@ -5,13 +5,13 @@ from numpy import array
 
 
 def test_init_with_valid_board():
-    sudoku_board = Sudoku(boards.valid)
+    sudoku_board = Sudoku(boards.solved)
     board_out = sudoku_board.board
-    assert (array(boards.valid) == board_out).all()
+    assert (array(boards.solved) == board_out).all()
 
 
 def test_add_cell_with_valid():
-    sudoku_board = Sudoku(boards.initial)
+    sudoku_board = Sudoku(boards.unsolved_easy)
     row = 3
     column = 7
     value = 5
@@ -20,7 +20,7 @@ def test_add_cell_with_valid():
 
 
 def test_add_cell_with_invalid():
-    sudoku_board = Sudoku(boards.initial)
+    sudoku_board = Sudoku(boards.unsolved_easy)
     row = 3
     column = 7
     value = 's'
@@ -29,7 +29,7 @@ def test_add_cell_with_invalid():
 
 
 def test_get_box_with_valid():
-    sudoku_board = Sudoku(boards.initial)
+    sudoku_board = Sudoku(boards.unsolved_easy)
 
     box1 = sudoku_board.get_box(0, 0)
     expected_box1 = array([[5, 3, 0], [6, 0, 0], [0, 9, 8]])
@@ -53,7 +53,7 @@ def test_get_box_with_valid():
 
 
 def test_print_board(capsys):
-    sudoku_board = Sudoku(boards.initial)
+    sudoku_board = Sudoku(boards.unsolved_easy)
     sudoku_board.print_board()
     expected = boards.printed_board
     out, err = capsys.readouterr()
