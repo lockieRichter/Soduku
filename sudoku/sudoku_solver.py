@@ -1,18 +1,19 @@
 from numpy import unique
 from itertools import chain
+from typing import List
 
 
-def verify_row(sudoku, row):
+def verify_row(sudoku, row: int) -> bool:
     row_values = sudoku.board[row][:]
     return len(row_values) <= len(set(row_values))
 
 
-def verify_column(sudoku, column):
+def verify_column(sudoku, column: int) -> bool:
     column_values = sudoku.board[:][column]
     return len(column_values) <= len(set(column_values))
 
 
-def verify_box(sudoku, box):
+def verify_box(sudoku, box: int) -> bool:
     d = box // 3
     r = box % 3
     box_values = None
@@ -34,18 +35,18 @@ def verify_box(sudoku, box):
     return len(unique(box_values)) == 9
 
 
-def verify_board(sudoku):
+def verify_board(sudoku) -> bool:
     for i in range(9):
         if not (verify_row(sudoku, i) and verify_column(sudoku, i) and verify_box(sudoku, i)):
             return False
     return True
 
 
-def non_zero(value):
+def non_zero(value: int) -> bool:
     return value != 0
 
 
-def get_possible_cell_values(sudoku, row, column):
+def get_possible_cell_values(sudoku, row: int, column: int) -> List[int]:
     all_values = [1, 2, 3, 4, 5, 6, 7, 8, 9]
     possible_values = []
 
@@ -65,7 +66,7 @@ def get_possible_cell_values(sudoku, row, column):
     return possible_values
 
 
-def solve_all_single_value_cells(sudoku):
+def solve_all_single_value_cells(sudoku) -> None:
     solved_value = True
     while solved_value:
         solved_value = False
@@ -78,7 +79,7 @@ def solve_all_single_value_cells(sudoku):
 
 
 # TODO: Need to finish implementing solver for unique cadidates.
-def solve_all_unique_value_cells(sudoku):
+def solve_all_unique_value_cells(sudoku) -> None:
     for row in range(9):
         for column in range(9):
             if sudoku.board[row, column] == 0:
@@ -86,7 +87,7 @@ def solve_all_unique_value_cells(sudoku):
 
 
 # TODO: Need to finish implementing solver for unique cadidates.
-def check_for_unique_candidate(sudoku, row, column):
+def check_for_unique_candidate(sudoku, row: int, column: int):
     first = [0, 1, 2]
     second = [3, 4, 5]
     third = [6, 7, 8]
@@ -104,9 +105,7 @@ def check_for_unique_candidate(sudoku, row, column):
         columns = first
     elif column // 3 == 1:
         columns = second
-    elif column // 3 ==2:
-        columns= third
+    elif column // 3 == 2:
+        columns = third
 
     columns.remove(column)
-
-

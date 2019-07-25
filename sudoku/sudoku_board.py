@@ -1,12 +1,14 @@
+import numpy
 from numpy import array
+from typing import List
 
 
 class Sudoku:
 
-    def __init__(self, board):
+    def __init__(self, board: List[int]) -> None:
         self.board = array(board)
 
-    def print_board(self):
+    def print_board(self) -> None:
         for i in range(9):
             if i % 3 == 0:
                 if i == 0:
@@ -21,10 +23,10 @@ class Sudoku:
             print(' |')
         print('  -----------------------')
 
-    def add_cell(self, row, column, value):
+    def add_cell(self, row: int, column: int, value: int) -> None:
         self.board[row][column] = value
 
-    def get_box(self, row, column):
+    def get_box(self, row: int, column: int) -> numpy.ndarray:
         if row // 3 == 0:
             box = self.board[0:3, :]
         elif row // 3 == 1:
