@@ -90,3 +90,28 @@ def test_solve_all_single_value_cells_with_unsolved_easy():
     solved_board = sudoku_board.board
     expected_board = boards.solved_easy
     assert array(expected_board).all() == solved_board.all()
+
+
+def test_get_adjacent_rows_and_columns():
+    rows, columns = sudoku_solver.get_adjacent_rows_and_columns(0, 0)
+    assert rows == [1, 2]
+    assert columns == [1, 2]
+
+    rows, columns = sudoku_solver.get_adjacent_rows_and_columns(3, 5)
+    assert rows == [4, 5]
+    assert columns == [3, 4]
+
+    rows, columns = sudoku_solver.get_adjacent_rows_and_columns(7, 8)
+    assert rows == [6, 8]
+    assert columns == [6, 7]
+
+def test_check_for_adjacent_values():
+    sudoku = Sudoku(boards.unique_candidate_test)
+    adjacent_rows = sudoku_solver.check_for_adjacent_values(sudoku, 7, 0)
+    assert False
+
+# TODO: Re-implement this test when functionality is added.
+# def test_check_for_unique_candidate_with_unique_candidate():
+#     sudoku_board = Sudoku(boards.unique_candidate_test)
+#     unique_value = sudoku_solver.check_for_unique_candidate(sudoku_board, 7, 0)
+#     assert unique_value == 4

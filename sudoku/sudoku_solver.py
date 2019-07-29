@@ -1,6 +1,8 @@
 from numpy import unique
+from numpy import delete
 from itertools import chain
 from typing import List
+from typing import Tuple
 
 
 def verify_row(sudoku, row: int) -> bool:
@@ -78,34 +80,57 @@ def solve_all_single_value_cells(sudoku) -> None:
                     solved_value = True
 
 
-# TODO: Need to finish implementing solver for unique cadidates.
-def solve_all_unique_value_cells(sudoku) -> None:
-    for row in range(9):
-        for column in range(9):
-            if sudoku.board[row, column] == 0:
-                possible_values = get_possible_cell_values(sudoku, row, column)
-
-
-# TODO: Need to finish implementing solver for unique cadidates.
-def check_for_unique_candidate(sudoku, row: int, column: int):
+def get_adjacent_rows_and_columns(row: int, column: int) -> Tuple[List[int], List[int]]:
     first = [0, 1, 2]
     second = [3, 4, 5]
     third = [6, 7, 8]
 
     if row // 3 == 0:
-        rows = first
+        rows = first.copy()
     elif row // 3 == 1:
-        rows = second
+        rows = second.copy()
     elif row // 3 == 2:
-        rows = third
+        rows = third.copy()
 
     rows.remove(row)
 
     if column // 3 == 0:
-        columns = first
+        columns = first.copy()
     elif column // 3 == 1:
-        columns = second
+        columns = second.copy()
     elif column // 3 == 2:
-        columns = third
+        columns = third.copy()
 
     columns.remove(column)
+
+    return rows, columns
+
+
+def check_for_adjacent_values(sudoku, row: int, column: int):
+    if row % 3 == 0:
+        row_values = sudoku.board[row + 1, :].copy()
+    elif row % 3 == 1:
+        row_values = delete(sudoku.board[row - 1: row + 2, :].copy(), 1, 0)
+    elif row % 3 == 2:
+        row_values = sudoku.board[row - 1, :].copy()
+
+    if column % 3 == 0:
+        column_values = sudoku.board[:, column + 1].copy()
+    elif column % 3 == 1:
+        column_values = delete(sudoku.board[:, column - 1: column + 2].copy(), 1, 0)
+    elif column % 3 == 2:
+        column_values = sudoku.board[:, column - 1].copy()
+
+    value = sudoku.board[row, column]
+
+
+# TODO: Need to finish implementing solver for unique cadidates.
+def check_for_unique_candidate(sudoku, row: int, column: int) -> int:
+    adjacent_rows, adjacent_columns = get_adjacent_rows_and_columns(row, column)
+
+# TODO: Need to finish implementing solver for unique cadidates.
+# def solve_all_unique_value_cells(sudoku) -> None:
+#     for row in range(9):
+#         for column in range(9):
+#             if sudoku.board[row, column] == 0:
+#                 possible_values = get_possible_cell_values(sudoku, row, column)
