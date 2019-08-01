@@ -110,3 +110,37 @@ def test_check_row_for_value():
     sudoku = Sudoku(boards.unique_candidate_test)
     assert sudoku_solver.check_row_for_value(sudoku, 0, 4)
     assert not sudoku_solver.check_row_for_value(sudoku, 0, 5)
+
+
+def test_check_column_for_value():
+    sudoku = Sudoku(boards.unique_candidate_test)
+    assert sudoku_solver.check_column_for_value(sudoku, 2, 4)
+    assert not sudoku_solver.check_column_for_value(sudoku, 2, 5)
+
+
+def test_get_rows_from_box_index():
+    rows = sudoku_solver.get_rows_from_box_index(0)
+    expected_rows = [0, 1, 2]
+    assert rows == expected_rows
+
+    rows = sudoku_solver.get_rows_from_box_index(4)
+    expected_rows = [3, 4, 5]
+    assert rows == expected_rows
+
+    rows = sudoku_solver.get_rows_from_box_index(8)
+    expected_rows = [6, 7, 8]
+    assert rows == expected_rows
+
+
+def test_get_columns_from_box_index():
+    columns = sudoku_solver.get_columns_from_box_index(0)
+    expected_columns = [0, 1, 2]
+    assert columns == expected_columns
+
+    columns = sudoku_solver.get_columns_from_box_index(4)
+    expected_columns = [3, 4, 5]
+    assert columns == expected_columns
+
+    columns = sudoku_solver.get_columns_from_box_index(8)
+    expected_columns = [6, 7, 8]
+    assert columns == expected_columns

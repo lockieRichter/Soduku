@@ -46,3 +46,6 @@ else:
 
 sudoku.print_board()
 
+sudoku_solver.crosshatch_box(sudoku, 8)
+
+sudoku.print_board()

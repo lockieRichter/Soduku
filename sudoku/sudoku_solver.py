@@ -84,6 +84,32 @@ def check_row_for_value(sudoku, row: int, value: int) -> bool:
     return value in sudoku.board[row, :]
 
 
+def check_column_for_value(sudoku, column: int, value: int) -> bool:
+    return value in sudoku.board[:, column]
+
+
+def get_rows_from_box_index(box_numer: int) -> List[int]:
+    if 0 <= box_numer < 3:
+        rows = [0, 1, 2]
+    elif 3 <= box_numer < 6:
+        rows = [3, 4, 5]
+    elif 6 <= box_numer < 9:
+        rows = [6, 7, 8]
+
+    return rows
+
+
+def get_columns_from_box_index(box_numer: int) -> List[int]:
+    if box_numer % 3 == 0:
+        columns = [0, 1, 2]
+    elif box_numer % 3 == 1:
+        columns = [3, 4, 5]
+    elif box_numer % 3 == 2:
+        columns = [6, 7, 8]
+
+    return columns
+
+
 def crosshatch_box(sudoku, box_number: int) -> None:
     all_values = [1, 2, 3, 4, 5, 6, 7, 8, 9]
     unused_values = []
@@ -97,17 +123,39 @@ def crosshatch_box(sudoku, box_number: int) -> None:
 
     # for each value that is not in the box
     for value in unused_values:
-        # TODO: Update row to be correct for box.
-        row = 1
-        check_row_for_value(sudoku, row, value)
+        possible_rows = []
+        possible_columns = []
 
-# check each row for that value
-# if that value is in the row, then it can't be in that row of the box
-# else add the row to possible rows.
-# check each column for that value
-# if that value is in the column, then it caN't be in the column of the box
-# else add the column to possible columns.
-# if there is a single value for possible rows and columns, then add that value to this index
+        # for each row in the box
+        for row in get_rows_from_box_index(box_number):
+            # If the value is not in that row then it could be in that row
+            # of the box.
+            if not check_row_for_value(sudoku, row, value):
+                possible_rows.append(row)
+        # for each column in the box
+        for column in get_columns_from_box_index(box_number):
+            # If the value is not in that column then it could be in that column
+            # of the box.
+            if not check_column_for_value(sudoku, column, value):
+                possible_columns.append(column)
+
+        # If there is a single value for possible rows and columns,
+        # then add that value to this index.
+        possible_rows = list(set(possible_rows))
+        possible_columns = list(set(possible_columns))
+
+        if len(possible_columns) == 1:
+            for row in possible_rows:
+                if sudoku.board[row, possible_columns[0]] != 0:
+                    possible_rows.remove(row)
+
+        if len(possible_rows) == 1:
+            for column in possible_columns:
+                if sudoku.board[possible_rows[0], column] != 0:
+                    possible_columns.remove(column)
+
+        if len(possible_columns) == 1 and len(possible_rows) == 1:
+            sudoku.board[possible_rows[0], possible_columns[0]] = value
 
 
 def get_adjacent_rows_and_columns(row: int, column: int) -> Tuple[List[int], List[int]]:
@@ -134,32 +182,3 @@ def get_adjacent_rows_and_columns(row: int, column: int) -> Tuple[List[int], Lis
     columns.remove(column)
 
     return rows, columns
-
-# TODO: Do we need this at all?
-# def check_for_adjacent_values(sudoku, row: int, column: int):
-#     if row % 3 == 0:
-#         row_values = sudoku.board[row + 1, :].copy()
-#     elif row % 3 == 1:
-#         row_values = delete(sudoku.board[row - 1: row + 2, :].copy(), 1, 0)
-#     elif row % 3 == 2:
-#         row_values = sudoku.board[row - 1, :].copy()
-#
-#     if column % 3 == 0:
-#         column_values = sudoku.board[:, column + 1].copy()
-#     elif column % 3 == 1:
-#         column_values = delete(sudoku.board[:, column - 1: column + 2].copy(), 1, 0)
-#     elif column % 3 == 2:
-#         column_values = sudoku.board[:, column - 1].copy()
-#
-#     value = sudoku.board[row, column]
-
-# TODO: Need to finish implementing solver for unique cadidates.
-# def check_for_unique_candidate(sudoku, row: int, column: int) -> int:
-#     adjacent_rows, adjacent_columns = get_adjacent_rows_and_columns(row, column)
-
-# TODO: Need to finish implementing solver for unique cadidates.
-# def solve_all_unique_value_cells(sudoku) -> None:
-#     for row in range(9):
-#         for column in range(9):
-#             if sudoku.board[row, column] == 0:
-#                 possible_values = get_possible_cell_values(sudoku, row, column)
