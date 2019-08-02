@@ -26,6 +26,7 @@ def test_add_cell_with_invalid():
     column = 7
     value = 's'
     with pytest.raises(Exception):
+        # noinspection PyTypeChecker
         sudoku_board.add_cell(row, column, value)
 
 

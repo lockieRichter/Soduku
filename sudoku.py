@@ -5,6 +5,7 @@ from sudoku.sudoku_board import Sudoku
 
 
 def read_board_in():
+    # noinspection PyUnusedLocal
     board_in = [[0] * 9 for i in range(9)]
     count = 0
     for line in fileinput.input():
@@ -43,9 +44,5 @@ if sudoku_solver.verify_board(sudoku):
 else:
     print("Could not solve board using single values.")
     print("Have solved the board to the following values...")
-
-sudoku.print_board()
-
-sudoku_solver.crosshatch_box(sudoku, 8)
 
 sudoku.print_board()

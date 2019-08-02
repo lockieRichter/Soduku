@@ -16,18 +16,6 @@ def test_verify_row_with_invalid_rows():
         assert not sudoku_solver.verify_row(sudoku_board, i)
 
 
-def test_verify_row_with_valid_rows():
-    sudoku_board = Sudoku(boards.solved)
-    for i in range(9):
-        assert sudoku_solver.verify_row(sudoku_board, i)
-
-
-def test_verify_row_with_invalid_rows():
-    sudoku_board = Sudoku(boards.invalid)
-    for i in range(9):
-        assert not sudoku_solver.verify_row(sudoku_board, i)
-
-
 def test_verify_column_with_valid_columns():
     sudoku_board = Sudoku(boards.solved)
     for i in range(9):

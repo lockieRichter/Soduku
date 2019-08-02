@@ -88,23 +88,25 @@ def check_column_for_value(sudoku, column: int, value: int) -> bool:
     return value in sudoku.board[:, column]
 
 
-def get_rows_from_box_index(box_numer: int) -> List[int]:
-    if 0 <= box_numer < 3:
+def get_rows_from_box_index(box_number: int) -> List[int]:
+    rows = []
+    if 0 <= box_number < 3:
         rows = [0, 1, 2]
-    elif 3 <= box_numer < 6:
+    elif 3 <= box_number < 6:
         rows = [3, 4, 5]
-    elif 6 <= box_numer < 9:
+    elif 6 <= box_number < 9:
         rows = [6, 7, 8]
 
     return rows
 
 
-def get_columns_from_box_index(box_numer: int) -> List[int]:
-    if box_numer % 3 == 0:
+def get_columns_from_box_index(box_number: int) -> List[int]:
+    columns = []
+    if box_number % 3 == 0:
         columns = [0, 1, 2]
-    elif box_numer % 3 == 1:
+    elif box_number % 3 == 1:
         columns = [3, 4, 5]
-    elif box_numer % 3 == 2:
+    elif box_number % 3 == 2:
         columns = [6, 7, 8]
 
     return columns
@@ -162,6 +164,8 @@ def get_adjacent_rows_and_columns(row: int, column: int) -> Tuple[List[int], Lis
     second = [3, 4, 5]
     third = [6, 7, 8]
 
+    rows = []
+    columns = []
     if row // 3 == 0:
         rows = first.copy()
     elif row // 3 == 1:

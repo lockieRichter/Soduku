@@ -28,6 +28,7 @@ class Sudoku:
         self.board[row][column] = value
 
     def get_box_from_cell(self, row: int, column: int) -> numpy.ndarray:
+        box = None
         if row // 3 == 0:
             box = self.board[0:3, :]
         elif row // 3 == 1:
@@ -45,6 +46,7 @@ class Sudoku:
         return box
 
     def get_box_from_index(self, box_number: int) -> numpy.ndarray:
+        box = None
         if box_number == 0:
             box = self.get_box_from_cell(0, 0)
         elif box_number == 1:
