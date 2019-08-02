@@ -27,7 +27,7 @@ print("Enter 0 for any number that is unknown.")
 
 # board = read_board_in()
 
-sudoku = Sudoku(boards.unsolved_hard)
+sudoku = Sudoku(boards.unsolved_very_hard)
 
 print("You entered the following board...")
 sudoku.print_board()
