@@ -37,20 +37,25 @@ correct = input()
 if correct.strip() != "yes":
     board = read_board_in()
 
+board_before = sudoku.board.copy()
 sudoku_solver.solve_all_single_value_cells(sudoku)
-
+sudoku_solver.solve_all_crosshatch_boxes(sudoku)
+board_after = sudoku.board.copy()
 if sudoku_solver.verify_board(sudoku):
     print("Have completed the board with the following solution...")
-else:
-    print("Could not solve board using single values.")
-    print("Have solved the board to the following values...")
 
+while (board_before != board_after).all():
+    board_before = sudoku.board.copy()
+    sudoku_solver.solve_all_single_value_cells(sudoku)
+    sudoku_solver.solve_all_crosshatch_boxes(sudoku)
+    board_after = sudoku.board.copy()
+    if sudoku_solver.verify_board(sudoku):
+        print("Have completed the board with the following solution...")
+        sudoku.print_board()
+        exit()
+
+print("Could not find a solution.")
+print("Have solved the board to the following point...")
 sudoku.print_board()
 
-sudoku_solver.solve_all_crosshatch_boxes(sudoku)
 
-sudoku.print_board()
-
-sudoku_solver.solve_all_single_value_cells(sudoku)
-
-sudoku.print_board()
