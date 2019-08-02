@@ -1,6 +1,7 @@
+from typing import List
+
 import numpy
 from numpy import array
-from typing import List
 
 
 class Sudoku:

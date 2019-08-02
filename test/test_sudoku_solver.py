@@ -1,6 +1,7 @@
+from numpy import array
+
 from sudoku import sudoku_solver, boards
 from sudoku.sudoku_board import Sudoku
-from numpy import array
 
 
 def test_verify_row_with_valid_rows():
@@ -144,3 +145,15 @@ def test_get_columns_from_box_index():
     columns = sudoku_solver.get_columns_from_box_index(8)
     expected_columns = [6, 7, 8]
     assert columns == expected_columns
+
+
+def test_crosshatch_box():
+    sudoku_board = Sudoku(boards.unique_candidate_test)
+    assert sudoku_board.board[7, 0] == 0
+    sudoku_solver.crosshatch_box(sudoku_board, 6)
+    assert sudoku_board.board[7, 0] == 4
+
+    sudoku_board = Sudoku(boards.unsolved_hard)
+    assert sudoku_board.board[5, 6] == 0
+    sudoku_solver.crosshatch_box(sudoku_board, 5)
+    assert sudoku_board.board[5, 6] == 8

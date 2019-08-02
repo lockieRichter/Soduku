@@ -1,6 +1,6 @@
 import fileinput
-from sudoku import sudoku_solver, boards
 
+from sudoku import sudoku_solver, boards
 from sudoku.sudoku_board import Sudoku
 
 

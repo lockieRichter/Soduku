@@ -1,8 +1,8 @@
-from numpy import unique
-from numpy import delete
 from itertools import chain
 from typing import List
 from typing import Tuple
+
+from numpy import unique
 
 
 def verify_row(sudoku, row: int) -> bool:
@@ -121,29 +121,27 @@ def crosshatch_box(sudoku, box_number: int) -> None:
         if value not in box_values:
             unused_values.append(value)
 
-    # for each value that is not in the box
+    # Loop through each value that is not in the box.
     for value in unused_values:
         possible_rows = []
         possible_columns = []
 
-        # for each row in the box
+        # Check each row that goes through the box.
         for row in get_rows_from_box_index(box_number):
-            # If the value is not in that row then it could be in that row
-            # of the box.
+            # If the value is not in that row then it could be in that row of the box.
             if not check_row_for_value(sudoku, row, value):
                 possible_rows.append(row)
-        # for each column in the box
+        # Check each column that goes through the box.
         for column in get_columns_from_box_index(box_number):
-            # If the value is not in that column then it could be in that column
-            # of the box.
+            # If the value is not in that column then it could be in that column of the box.
             if not check_column_for_value(sudoku, column, value):
                 possible_columns.append(column)
 
-        # If there is a single value for possible rows and columns,
-        # then add that value to this index.
+        # Remove duplicates from possible rows and columns.
         possible_rows = list(set(possible_rows))
         possible_columns = list(set(possible_columns))
 
+        # If there is one possible row or column, check to see if any values in that row or column are already filled.
         if len(possible_columns) == 1:
             for row in possible_rows:
                 if sudoku.board[row, possible_columns[0]] != 0:
@@ -154,6 +152,7 @@ def crosshatch_box(sudoku, box_number: int) -> None:
                 if sudoku.board[possible_rows[0], column] != 0:
                     possible_columns.remove(column)
 
+        # If there is a single value for possible rows and columns, then add that value to this index.
         if len(possible_columns) == 1 and len(possible_rows) == 1:
             sudoku.board[possible_rows[0], possible_columns[0]] = value
 

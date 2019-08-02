@@ -1,7 +1,8 @@
 import pytest
+from numpy import array
+
 from sudoku import boards
 from sudoku.sudoku_board import Sudoku
-from numpy import array
 
 
 def test_init_with_valid_board():
