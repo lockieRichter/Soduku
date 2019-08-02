@@ -9,7 +9,7 @@ Currently it utilises a CLI to take input and print the sudoku board, but the go
 * Very Easy &#9745;
 * Easy &#9745;
 * Medium &#9745;
-* Hard &#9744;
+* Hard &#9745;
 * Very Hard &#9744;
 
 ## Usage
