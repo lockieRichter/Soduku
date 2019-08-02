@@ -145,3 +145,10 @@ def test_crosshatch_box():
     assert sudoku_board.board[5, 6] == 0
     sudoku_solver.crosshatch_box(sudoku_board, 5)
     assert sudoku_board.board[5, 6] == 8
+
+
+def test_solve_all_crosshatch_boxes():
+    sudoku_board = Sudoku(boards.unique_candidate_test)
+    assert sudoku_board.board[7, 0] == 0
+    sudoku_solver.solve_all_crosshatch_boxes(sudoku_board)
+    assert sudoku_board.board[7, 0] == 4

@@ -46,3 +46,11 @@ else:
     print("Have solved the board to the following values...")
 
 sudoku.print_board()
+
+sudoku_solver.solve_all_crosshatch_boxes(sudoku)
+
+sudoku.print_board()
+
+sudoku_solver.solve_all_single_value_cells(sudoku)
+
+sudoku.print_board()

@@ -112,7 +112,7 @@ def get_columns_from_box_index(box_number: int) -> List[int]:
     return columns
 
 
-def crosshatch_box(sudoku, box_number: int) -> None:
+def crosshatch_box(sudoku, box_number: int) -> bool:
     all_values = [1, 2, 3, 4, 5, 6, 7, 8, 9]
     unused_values = []
 
@@ -123,6 +123,7 @@ def crosshatch_box(sudoku, box_number: int) -> None:
         if value not in box_values:
             unused_values.append(value)
 
+    solved_value = False
     # Loop through each value that is not in the box.
     for value in unused_values:
         possible_rows = []
@@ -157,6 +158,17 @@ def crosshatch_box(sudoku, box_number: int) -> None:
         # If there is a single value for possible rows and columns, then add that value to this index.
         if len(possible_columns) == 1 and len(possible_rows) == 1:
             sudoku.board[possible_rows[0], possible_columns[0]] = value
+            solved_value = True
+
+    return solved_value
+
+
+def solve_all_crosshatch_boxes(sudoku) -> None:
+    solved_value = True
+    while solved_value:
+        solved_value = False
+        for box_number in range(9):
+            solved_value = crosshatch_box(sudoku, box_number)
 
 
 def get_adjacent_rows_and_columns(row: int, column: int) -> Tuple[List[int], List[int]]:
