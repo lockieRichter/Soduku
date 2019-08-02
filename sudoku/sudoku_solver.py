@@ -144,20 +144,16 @@ def crosshatch_box(sudoku, box_number: int) -> bool:
         possible_rows = list(set(possible_rows))
         possible_columns = list(set(possible_columns))
 
-        # If there is one possible row or column, check to see if any values in that row or column are already filled.
-        if len(possible_columns) == 1:
-            for row in possible_rows:
-                if sudoku.board[row, possible_columns[0]] != 0:
-                    possible_rows.remove(row)
-
-        if len(possible_rows) == 1:
+        # A cell position is only possible if the value is 0. Save the index if it is.
+        possible_index = []
+        for row in possible_rows:
             for column in possible_columns:
-                if sudoku.board[possible_rows[0], column] != 0:
-                    possible_columns.remove(column)
+                if sudoku.board[row, column] == 0:
+                    possible_index.append([row, column])
 
-        # If there is a single value for possible rows and columns, then add that value to this index.
-        if len(possible_columns) == 1 and len(possible_rows) == 1:
-            sudoku.board[possible_rows[0], possible_columns[0]] = value
+        # If there is only one possible value for this cell then add it to the board.
+        if len(possible_index) == 1:
+            sudoku.board[possible_index[0][0], possible_index[0][1]] = value
             solved_value = True
 
     return solved_value
