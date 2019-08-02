@@ -53,3 +53,4 @@ while not sudoku_solver.verify_board(sudoku):
         print("Could not find a solution after 100 iterations.")
         print("Have solved the board to the following point...")
         sudoku.print_board()
+        exit()
