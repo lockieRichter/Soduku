@@ -8,13 +8,13 @@ from sudoku import sudoku_board
 
 
 def verify_row(sudoku: sudoku_board.Sudoku, row: int) -> bool:
-    row_values = sudoku.board[row][:]
-    return len(row_values) <= len(set(row_values))
+    row_values = sudoku.board_numbers[row][:]
+    return len(row_values) <= len(set(row_values)) and 0 not in row_values
 
 
 def verify_column(sudoku: sudoku_board.Sudoku, column: int) -> bool:
-    column_values = sudoku.board[:][column]
-    return len(column_values) <= len(set(column_values))
+    column_values = sudoku.board_numbers[:][column]
+    return len(column_values) <= len(set(column_values)) and 0 not in column_values
 
 
 def verify_box(sudoku: sudoku_board.Sudoku, box: int) -> bool:
@@ -23,11 +23,11 @@ def verify_box(sudoku: sudoku_board.Sudoku, box: int) -> bool:
     box_values = None
 
     if d == 0:
-        box_values = sudoku.board[:, :3]
+        box_values = sudoku.board_numbers[:, :3]
     elif d == 1:
-        box_values = sudoku.board[:, 3:6]
+        box_values = sudoku.board_numbers[:, 3:6]
     elif d == 2:
-        box_values = sudoku.board[:, 6:]
+        box_values = sudoku.board_numbers[:, 6:]
 
     if r == 0:
         box_values = box_values[:3, :]
@@ -36,7 +36,7 @@ def verify_box(sudoku: sudoku_board.Sudoku, box: int) -> bool:
     elif r == 2:
         box_values = box_values[6:, :]
 
-    return len(unique(box_values)) == 9
+    return len(unique(box_values)) == 9 and 0 not in box_values
 
 
 def verify_board(sudoku: sudoku_board.Sudoku) -> bool:
@@ -54,11 +54,11 @@ def get_possible_cell_values(sudoku: sudoku_board.Sudoku, row: int, column: int)
     all_values = [1, 2, 3, 4, 5, 6, 7, 8, 9]
     possible_values = []
 
-    if sudoku.board[row][column] != 0:
-        possible_values.append(sudoku.board[row][column])
+    if sudoku.board_numbers[row][column] != 0:
+        possible_values.append(sudoku.board_numbers[row][column])
     else:
-        row_values = sudoku.board[row, :].flatten()
-        column_values = sudoku.board[:, column].flatten()
+        row_values = sudoku.board_numbers[row, :].flatten()
+        column_values = sudoku.board_numbers[:, column].flatten()
         box_values = sudoku.get_box_from_cell(row, column).flatten()
 
         used_values = unique(list(filter(non_zero, chain(row_values, column_values, box_values))))
@@ -77,17 +77,17 @@ def solve_all_single_value_cells(sudoku: sudoku_board.Sudoku) -> None:
         for row in range(9):
             for column in range(9):
                 values = get_possible_cell_values(sudoku, row, column)
-                if len(values) == 1 and sudoku.board[row][column] == 0:
+                if len(values) == 1 and sudoku.board_numbers[row][column] == 0:
                     sudoku.add_cell(row, column, values[0])
                     solved_value = True
 
 
 def check_row_for_value(sudoku: sudoku_board.Sudoku, row: int, value: int) -> bool:
-    return value in sudoku.board[row, :]
+    return value in sudoku.board_numbers[row, :]
 
 
 def check_column_for_value(sudoku: sudoku_board.Sudoku, column: int, value: int) -> bool:
-    return value in sudoku.board[:, column]
+    return value in sudoku.board_numbers[:, column]
 
 
 def get_rows_from_box_index(box_number: int) -> List[int]:
@@ -150,12 +150,12 @@ def crosshatch_box(sudoku: sudoku_board.Sudoku, box_number: int) -> bool:
         possible_index = []
         for row in possible_rows:
             for column in possible_columns:
-                if sudoku.board[row, column] == 0:
+                if sudoku.board_numbers[row, column] == 0:
                     possible_index.append([row, column])
 
         # If there is only one possible value for this cell then add it to the board.
         if len(possible_index) == 1:
-            sudoku.board[possible_index[0][0], possible_index[0][1]] = value
+            sudoku.board_numbers[possible_index[0][0], possible_index[0][1]] = value
             solved_value = True
 
     return solved_value
@@ -199,7 +199,7 @@ def solve_naked_subset_column(sudoku: sudoku_board.Sudoku, column: int) -> None:
 
     for row in range(9):
         if len(cell_possible_values[row]) == 1:
-            sudoku.board[row, column] = cell_possible_values[row][0]
+            sudoku.board_numbers[row, column] = cell_possible_values[row][0]
 
 
 def get_adjacent_rows_and_columns(row: int, column: int) -> Tuple[List[int], List[int]]:

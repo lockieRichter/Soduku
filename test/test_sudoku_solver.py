@@ -76,7 +76,7 @@ def test_get_possible_cell_values_with_unsolved_easy():
 def test_solve_all_single_value_cells_with_unsolved_easy():
     sudoku_board = Sudoku(boards.unsolved_easy)
     sudoku_solver.solve_all_single_value_cells(sudoku_board)
-    solved_board = sudoku_board.board
+    solved_board = sudoku_board.board_numbers
     expected_board = boards.solved_easy
     assert (array(expected_board) == solved_board).all()
 
@@ -137,33 +137,33 @@ def test_get_columns_from_box_index():
 
 def test_crosshatch_box():
     sudoku_board = Sudoku(boards.unique_candidate_test)
-    assert sudoku_board.board[7, 0] == 0
+    assert sudoku_board.board_numbers[7, 0] == 0
     sudoku_solver.crosshatch_box(sudoku_board, 6)
-    assert sudoku_board.board[7, 0] == 4
+    assert sudoku_board.board_numbers[7, 0] == 4
 
     sudoku_board = Sudoku(boards.unsolved_hard)
-    assert sudoku_board.board[5, 6] == 0
+    assert sudoku_board.board_numbers[5, 6] == 0
     sudoku_solver.crosshatch_box(sudoku_board, 5)
-    assert sudoku_board.board[5, 6] == 8
+    assert sudoku_board.board_numbers[5, 6] == 8
 
 
 def test_solve_all_crosshatch_boxes():
     sudoku_board = Sudoku(boards.unique_candidate_test)
-    assert sudoku_board.board[7, 0] == 0
+    assert sudoku_board.board_numbers[7, 0] == 0
     sudoku_solver.solve_all_crosshatch_boxes(sudoku_board)
-    assert sudoku_board.board[7, 0] == 4
+    assert sudoku_board.board_numbers[7, 0] == 4
 
 
 def test_solve_naked_subset_column():
     column = 0
     row = 1
     sudoku_board = Sudoku(boards.naked_pair_test)
-    assert sudoku_board.board[row, column] == 0
+    assert sudoku_board.board_numbers[row, column] == 0
     sudoku_solver.solve_naked_subset_column(sudoku_board, column)
-    assert sudoku_board.board[row, column] == 1
+    assert sudoku_board.board_numbers[row, column] == 1
 
     row = 5
     sudoku_board = Sudoku(boards.naked_triple_test)
-    assert sudoku_board.board[row, column] == 0
+    assert sudoku_board.board_numbers[row, column] == 0
     sudoku_solver.solve_naked_subset_column(sudoku_board, column)
-    assert sudoku_board.board[row, column] == 2
+    assert sudoku_board.board_numbers[row, column] == 2

@@ -7,7 +7,7 @@ from sudoku.sudoku_board import Sudoku
 
 def test_init_with_valid_board():
     sudoku_board = Sudoku(boards.solved)
-    board_out = sudoku_board.board
+    board_out = sudoku_board.board_numbers
     assert (array(boards.solved) == board_out).all()
 
 
@@ -17,7 +17,7 @@ def test_add_cell_with_valid():
     column = 7
     value = 5
     sudoku_board.add_cell(row, column, value)
-    assert sudoku_board.board[row][column] == value
+    assert sudoku_board.board_numbers[row][column] == value
 
 
 def test_add_cell_with_invalid():

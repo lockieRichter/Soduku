@@ -40,10 +40,8 @@ if correct.strip() != "yes":
 iterations = 0
 while not sudoku_solver.verify_board(sudoku):
     iterations += 1
-    board_before = sudoku.board.copy()
     sudoku_solver.solve_all_single_value_cells(sudoku)
     sudoku_solver.solve_all_crosshatch_boxes(sudoku)
-    board_after = sudoku.board.copy()
     if sudoku_solver.verify_board(sudoku):
         print("Have completed the board with the following solution, after {0} iterations...".format(iterations))
         sudoku.print_board()
