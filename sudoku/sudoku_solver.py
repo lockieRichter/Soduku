@@ -4,18 +4,20 @@ from typing import Tuple
 
 from numpy import unique
 
+from sudoku import sudoku_board
 
-def verify_row(sudoku, row: int) -> bool:
+
+def verify_row(sudoku: sudoku_board.Sudoku, row: int) -> bool:
     row_values = sudoku.board[row][:]
     return len(row_values) <= len(set(row_values))
 
 
-def verify_column(sudoku, column: int) -> bool:
+def verify_column(sudoku: sudoku_board.Sudoku, column: int) -> bool:
     column_values = sudoku.board[:][column]
     return len(column_values) <= len(set(column_values))
 
 
-def verify_box(sudoku, box: int) -> bool:
+def verify_box(sudoku: sudoku_board.Sudoku, box: int) -> bool:
     d = box // 3
     r = box % 3
     box_values = None
@@ -37,7 +39,7 @@ def verify_box(sudoku, box: int) -> bool:
     return len(unique(box_values)) == 9
 
 
-def verify_board(sudoku) -> bool:
+def verify_board(sudoku: sudoku_board.Sudoku) -> bool:
     for i in range(9):
         if not (verify_row(sudoku, i) and verify_column(sudoku, i) and verify_box(sudoku, i)):
             return False
@@ -48,7 +50,7 @@ def non_zero(value: int) -> bool:
     return value != 0
 
 
-def get_possible_cell_values(sudoku, row: int, column: int) -> List[int]:
+def get_possible_cell_values(sudoku: sudoku_board.Sudoku, row: int, column: int) -> List[int]:
     all_values = [1, 2, 3, 4, 5, 6, 7, 8, 9]
     possible_values = []
 
@@ -68,7 +70,7 @@ def get_possible_cell_values(sudoku, row: int, column: int) -> List[int]:
     return possible_values
 
 
-def solve_all_single_value_cells(sudoku) -> None:
+def solve_all_single_value_cells(sudoku: sudoku_board.Sudoku) -> None:
     solved_value = True
     while solved_value:
         solved_value = False
@@ -80,11 +82,11 @@ def solve_all_single_value_cells(sudoku) -> None:
                     solved_value = True
 
 
-def check_row_for_value(sudoku, row: int, value: int) -> bool:
+def check_row_for_value(sudoku: sudoku_board.Sudoku, row: int, value: int) -> bool:
     return value in sudoku.board[row, :]
 
 
-def check_column_for_value(sudoku, column: int, value: int) -> bool:
+def check_column_for_value(sudoku: sudoku_board.Sudoku, column: int, value: int) -> bool:
     return value in sudoku.board[:, column]
 
 
@@ -112,7 +114,7 @@ def get_columns_from_box_index(box_number: int) -> List[int]:
     return columns
 
 
-def crosshatch_box(sudoku, box_number: int) -> bool:
+def crosshatch_box(sudoku: sudoku_board.Sudoku, box_number: int) -> bool:
     all_values = [1, 2, 3, 4, 5, 6, 7, 8, 9]
     unused_values = []
 
@@ -159,12 +161,23 @@ def crosshatch_box(sudoku, box_number: int) -> bool:
     return solved_value
 
 
-def solve_all_crosshatch_boxes(sudoku) -> None:
+def solve_all_crosshatch_boxes(sudoku: sudoku_board.Sudoku) -> None:
     solved_value = True
     while solved_value:
         solved_value = False
         for box_number in range(9):
             solved_value = crosshatch_box(sudoku, box_number)
+
+
+def solve_naked_subset_column(sudoku: sudoku_board.Sudoku, column: int) -> None:
+    # For each empty cell in column
+    # If there are two possible numbers that can only appear in two separate cells
+    # Then these numbers can be removed from the other cells as possibilities
+    cell_possible_values = []
+    for row in range(9):
+        cell_possible_values.append(get_possible_cell_values(sudoku, row, column))
+
+    print(cell_possible_values)
 
 
 def get_adjacent_rows_and_columns(row: int, column: int) -> Tuple[List[int], List[int]]:
