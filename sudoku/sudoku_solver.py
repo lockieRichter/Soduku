@@ -169,15 +169,37 @@ def solve_all_crosshatch_boxes(sudoku: sudoku_board.Sudoku) -> None:
             solved_value = crosshatch_box(sudoku, box_number)
 
 
+# For each empty cell in a column, if there are n possible numbers that can only appear in n separate cells,
+# then these numbers can be removed from the other cells as possibilities.
 def solve_naked_subset_column(sudoku: sudoku_board.Sudoku, column: int) -> None:
-    # For each empty cell in column
-    # If there are two possible numbers that can only appear in two separate cells
-    # Then these numbers can be removed from the other cells as possibilities
     cell_possible_values = []
     for row in range(9):
         cell_possible_values.append(get_possible_cell_values(sudoku, row, column))
 
-    print(cell_possible_values)
+    subset_indices_two = []
+    subset_indices_three = []
+    for cell in range(9):
+        if len(cell_possible_values[cell]) == 2:
+            subset_indices_two.append(cell)
+        elif len(cell_possible_values[cell]) == 3:
+            subset_indices_three.append(cell)
+
+    values_two = []
+    values_three = []
+    if len(subset_indices_two) == 2:
+        values_two = cell_possible_values[subset_indices_two[0]]
+    if len(subset_indices_three) == 3:
+        values_three = cell_possible_values[subset_indices_three[0]]
+
+    for index in range(9):
+        if index not in subset_indices_two:
+            cell_possible_values[index] = (list(set(cell_possible_values[index]) - set(values_two)))
+        if index not in subset_indices_three:
+            cell_possible_values[index] = (list(set(cell_possible_values[index]) - set(values_three)))
+
+    for row in range(9):
+        if len(cell_possible_values[row]) == 1:
+            sudoku.board[row, column] = cell_possible_values[row][0]
 
 
 def get_adjacent_rows_and_columns(row: int, column: int) -> Tuple[List[int], List[int]]:

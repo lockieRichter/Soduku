@@ -152,3 +152,18 @@ def test_solve_all_crosshatch_boxes():
     assert sudoku_board.board[7, 0] == 0
     sudoku_solver.solve_all_crosshatch_boxes(sudoku_board)
     assert sudoku_board.board[7, 0] == 4
+
+
+def test_solve_naked_subset_column():
+    column = 0
+    row = 1
+    sudoku_board = Sudoku(boards.naked_pair_test)
+    assert sudoku_board.board[row, column] == 0
+    sudoku_solver.solve_naked_subset_column(sudoku_board, column)
+    assert sudoku_board.board[row, column] == 1
+
+    row = 5
+    sudoku_board = Sudoku(boards.naked_triple_test)
+    assert sudoku_board.board[row, column] == 0
+    sudoku_solver.solve_naked_subset_column(sudoku_board, column)
+    assert sudoku_board.board[row, column] == 2
