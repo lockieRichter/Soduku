@@ -42,13 +42,15 @@ while not sudoku_solver.verify_board(sudoku):
     iterations += 1
     sudoku_solver.solve_all_single_value_cells(sudoku)
     sudoku_solver.solve_all_crosshatch_boxes(sudoku)
-    if sudoku_solver.verify_board(sudoku):
-        print("Have completed the board with the following solution, after {0} iterations...".format(iterations))
-        sudoku.print_board()
-        exit()
+    sudoku_solver.solve_all_naked_subsets(sudoku)
 
-    if iterations == 100:
-        print("Could not find a solution after 100 iterations.")
+    if iterations == 20:
+        print("Could not find a solution after 20 iterations.")
         print("Have solved the board to the following point...")
         sudoku.print_board()
-        exit()
+        print("Will now try to brute force solve the board...")
+        sudoku_solver.solve_sudoku(sudoku.board_numbers)
+
+if sudoku_solver.verify_board(sudoku):
+    print("Have completed the board with the following solution, after {0} iterations...".format(iterations))
+    sudoku.print_board()

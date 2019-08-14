@@ -10,7 +10,7 @@ Currently it utilises a CLI to take input and print the sudoku board, but the go
 * Easy &#9745;
 * Medium &#9745;
 * Hard &#9745;
-* Very Hard &#9744;
+* Very Hard &#9745;
 
 ## Usage
 To use the Sudoku solver, simply clone down the repository and enter the following command from the root of the repository.

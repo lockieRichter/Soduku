@@ -81,20 +81,6 @@ def test_solve_all_single_value_cells_with_unsolved_easy():
     assert (array(expected_board) == solved_board).all()
 
 
-def test_get_adjacent_rows_and_columns():
-    rows, columns = sudoku_solver.get_adjacent_rows_and_columns(0, 0)
-    assert rows == [1, 2]
-    assert columns == [1, 2]
-
-    rows, columns = sudoku_solver.get_adjacent_rows_and_columns(3, 5)
-    assert rows == [4, 5]
-    assert columns == [3, 4]
-
-    rows, columns = sudoku_solver.get_adjacent_rows_and_columns(7, 8)
-    assert rows == [6, 8]
-    assert columns == [6, 7]
-
-
 def test_check_row_for_value():
     sudoku = Sudoku(boards.unique_candidate_test)
     assert sudoku_solver.check_row_for_value(sudoku, 0, 4)
@@ -162,8 +148,76 @@ def test_solve_naked_subset_column():
     sudoku_solver.solve_naked_subset_column(sudoku_board, column)
     assert sudoku_board.board_numbers[row, column] == 1
 
-    row = 5
-    sudoku_board = Sudoku(boards.naked_triple_test)
+
+def test_solve_naked_subset_row():
+    column = 1
+    row = 0
+    sudoku_board = Sudoku(boards.naked_pair_test)
+    sudoku_board.board_numbers = sudoku_board.board_numbers.T
     assert sudoku_board.board_numbers[row, column] == 0
-    sudoku_solver.solve_naked_subset_column(sudoku_board, column)
-    assert sudoku_board.board_numbers[row, column] == 2
+    sudoku_solver.solve_naked_subset_row(sudoku_board, row)
+    assert sudoku_board.board_numbers[row, column] == 1
+
+
+def test_solve_all_naked_subsets():
+    sudoku_board = Sudoku(boards.naked_pair_test)
+    sudoku_solver.solve_all_naked_subsets(sudoku_board)
+    assert sudoku_board.board_numbers[0, 0] == 0
+
+
+def test_find_empty_location():
+    board = Sudoku(boards.unsolved_easy)
+    location = [0, 0]
+    empty = sudoku_solver.find_empty_location(board.board_numbers, location)
+    assert empty
+
+    board = Sudoku(boards.solved_easy)
+    location = [0, 0]
+    empty = sudoku_solver.find_empty_location(board.board_numbers, location)
+    assert not empty
+
+
+def test_used_in_row():
+    board = Sudoku(boards.unsolved_easy)
+    used = sudoku_solver.used_in_row(board.board_numbers, 0, 5)
+    assert used
+
+    used = sudoku_solver.used_in_row(board.board_numbers, 0, 1)
+    assert not used
+
+
+def test_used_in_col():
+    board = Sudoku(boards.unsolved_easy)
+    used = sudoku_solver.used_in_col(board.board_numbers, 0, 5)
+    assert used
+
+    used = sudoku_solver.used_in_col(board.board_numbers, 0, 1)
+    assert not used
+
+
+def test_used_in_box():
+    board = Sudoku(boards.unsolved_easy)
+    used = sudoku_solver.used_in_box(board.board_numbers, 0, 0, 5)
+    assert used
+
+    used = sudoku_solver.used_in_box(board.board_numbers, 0, 0, 1)
+    assert not used
+
+
+def test_check_location_is_safe():
+    board = Sudoku(boards.unsolved_easy)
+    safe = sudoku_solver.check_location_is_safe(board.board_numbers, 0, 0, 1)
+    assert safe
+
+    safe = sudoku_solver.check_location_is_safe(board.board_numbers, 0, 0, 5)
+    assert not safe
+
+
+def test_solve_sudoku():
+    board = Sudoku(boards.unsolved_easy)
+    sudoku_solver.solve_sudoku(board.board_numbers)
+    assert (board.board_numbers == boards.solved_easy).all()
+
+    board = Sudoku(boards.unsolved_hard)
+    sudoku_solver.solve_sudoku(board.board_numbers)
+    assert (board.board_numbers == boards.solved_hard).all()

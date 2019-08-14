@@ -1,6 +1,5 @@
 from itertools import chain
 from typing import List
-from typing import Tuple
 
 from numpy import unique
 
@@ -169,6 +168,12 @@ def solve_all_crosshatch_boxes(sudoku: sudoku_board.Sudoku) -> None:
             solved_value = crosshatch_box(sudoku, box_number)
 
 
+def solve_all_naked_subsets(sudoku: sudoku_board.Sudoku):
+    for index in range(9):
+        solve_naked_subset_row(sudoku, index)
+        solve_naked_subset_column(sudoku, index)
+
+
 # For each empty cell in a column, if there are n possible numbers that can only appear in n separate cells,
 # then these numbers can be removed from the other cells as possibilities.
 def solve_naked_subset_column(sudoku: sudoku_board.Sudoku, column: int) -> None:
@@ -177,54 +182,131 @@ def solve_naked_subset_column(sudoku: sudoku_board.Sudoku, column: int) -> None:
         cell_possible_values.append(get_possible_cell_values(sudoku, row, column))
 
     subset_indices_two = []
-    subset_indices_three = []
     for cell in range(9):
         if len(cell_possible_values[cell]) == 2:
             subset_indices_two.append(cell)
-        elif len(cell_possible_values[cell]) == 3:
-            subset_indices_three.append(cell)
 
     values_two = []
-    values_three = []
     if len(subset_indices_two) == 2:
         values_two = cell_possible_values[subset_indices_two[0]]
-    if len(subset_indices_three) == 3:
-        values_three = cell_possible_values[subset_indices_three[0]]
 
     for index in range(9):
         if index not in subset_indices_two:
             cell_possible_values[index] = (list(set(cell_possible_values[index]) - set(values_two)))
-        if index not in subset_indices_three:
-            cell_possible_values[index] = (list(set(cell_possible_values[index]) - set(values_three)))
 
     for row in range(9):
         if len(cell_possible_values[row]) == 1:
             sudoku.board_numbers[row, column] = cell_possible_values[row][0]
 
 
-def get_adjacent_rows_and_columns(row: int, column: int) -> Tuple[List[int], List[int]]:
-    first = [0, 1, 2]
-    second = [3, 4, 5]
-    third = [6, 7, 8]
+def solve_naked_subset_row(sudoku: sudoku_board.Sudoku, row: int) -> None:
+    cell_possible_values = []
+    for column in range(9):
+        cell_possible_values.append(get_possible_cell_values(sudoku, row, column))
 
-    rows = []
-    columns = []
-    if row // 3 == 0:
-        rows = first.copy()
-    elif row // 3 == 1:
-        rows = second.copy()
-    elif row // 3 == 2:
-        rows = third.copy()
+    subset_indices_two = []
+    for cell in range(9):
+        if len(cell_possible_values[cell]) == 2:
+            subset_indices_two.append(cell)
 
-    rows.remove(row)
+    values_two = []
+    if len(subset_indices_two) == 2:
+        values_two = cell_possible_values[subset_indices_two[0]]
 
-    if column // 3 == 0:
-        columns = first.copy()
-    elif column // 3 == 1:
-        columns = second.copy()
-    elif column // 3 == 2:
-        columns = third.copy()
+    for index in range(9):
+        if index not in subset_indices_two:
+            cell_possible_values[index] = (list(set(cell_possible_values[index]) - set(values_two)))
 
-    columns.remove(column)
+    for column in range(9):
+        if len(cell_possible_values[column]) == 1:
+            sudoku.board_numbers[row, column] = cell_possible_values[column][0]
 
-    return rows, columns
+
+# Function to Find the entry in the Grid that is still  not used
+# Searches the grid to find an entry that is still unassigned. If
+# found, the reference parameters row, col will be set the location
+# that is unassigned, and true is returned. If no unassigned entries
+# remain, false is returned.
+# 'l' is a list  variable that has been passed from the solve_sudoku function
+# to keep track of incrementation of Rows and Columns
+def find_empty_location(arr, l):
+    for row in range(9):
+        for col in range(9):
+            if arr[row][col] == 0:
+                l[0] = row
+                l[1] = col
+                return True
+    return False
+
+
+# Returns a boolean which indicates whether any assigned entry
+# in the specified row matches the given number.
+def used_in_row(arr, row, num):
+    for i in range(9):
+        if arr[row][i] == num:
+            return True
+    return False
+
+
+# Returns a boolean which indicates whether any assigned entry
+# in the specified column matches the given number.
+def used_in_col(arr, col, num):
+    for i in range(9):
+        if arr[i][col] == num:
+            return True
+    return False
+
+
+# Returns a boolean which indicates whether any assigned entry
+# within the specified 3x3 box matches the given number
+def used_in_box(arr, row, col, num):
+    for i in range(3):
+        for j in range(3):
+            if arr[i + row][j + col] == num:
+                return True
+    return False
+
+
+# Checks whether it will be legal to assign num to the given row,col
+#  Returns a boolean which indicates whether it will be legal to assign
+#  num to the given row,col location.
+def check_location_is_safe(arr, row, col, num):
+    # Check if 'num' is not already placed in current row,
+    # current column and current 3x3 box
+    return not used_in_row(arr, row, num) and not used_in_col(arr, col, num) and not used_in_box(arr, row - row % 3,
+                                                                                                 col - col % 3, num)
+
+
+# Takes a partially filled-in grid and attempts to assign values to
+# all unassigned locations in such a way to meet the requirements
+# for Sudoku solution (non-duplication across rows, columns, and boxes)
+def solve_sudoku(arr):
+    # 'l' is a list variable that keeps the record of row and col in find_empty_location Function
+    location = [0, 0]
+
+    # If there is no unassigned location, we are done
+    if not find_empty_location(arr, location):
+        return True
+
+    # Assigning list values to row and col that we got from the above Function
+    row = location[0]
+    col = location[1]
+
+    # consider digits 1 to 9
+    for num in range(1, 10):
+
+        # if looks promising
+        if check_location_is_safe(arr, row, col, num):
+
+            # make tentative assignment
+            arr[row][col] = num
+
+            # return, if success, ya!
+            if solve_sudoku(arr):
+                return True
+
+            # failure, unmake & try again
+            arr[row][col] = 0
+
+    # this triggers backtracking
+    return False
