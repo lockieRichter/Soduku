@@ -125,3 +125,4 @@ dmypy.json
 
 # Workspace Settings
 .idea/workspace.xml
+.idea/inspectionProfiles

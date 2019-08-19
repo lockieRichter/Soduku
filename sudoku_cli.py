@@ -5,8 +5,7 @@ from sudoku.sudoku_board import Sudoku
 
 
 def read_board_in():
-    # noinspection PyUnusedLocal
-    board_in = [[0] * 9 for i in range(9)]
+    board_in = boards.empty
     count = 0
     for line in fileinput.input():
         board_in[count] = line.split()
@@ -22,20 +21,18 @@ def read_board_in():
 
 
 print("Welcome to Soduku solver...")
-print("Please enter the Soduku board in rows of 9, separating numbers with a space.")
-print("Enter 0 for any number that is unknown.")
 
-# board = read_board_in()
-
-sudoku = Sudoku(boards.unsolved_very_hard)
-
-print("You entered the following board...")
-sudoku.print_board()
-print("Is that correct? (yes/no)")
-
-correct = input()
-if correct.strip() != "yes":
+correct = "no"
+while correct.strip() != "yes":
+    print("Please enter the Soduku board in rows of 9, separating numbers with a space.")
+    print("Enter 0 for any number that is unknown.")
     board = read_board_in()
+    sudoku = Sudoku(board)
+
+    print("You entered the following board...")
+    sudoku.print_board()
+    print("Is that correct? (yes/no)")
+    correct = input()
 
 iterations = 0
 while not sudoku_solver.verify_board(sudoku):
