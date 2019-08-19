@@ -280,7 +280,7 @@ def check_location_is_safe(arr, row, col, num):
 # Takes a partially filled-in grid and attempts to assign values to
 # all unassigned locations in such a way to meet the requirements
 # for Sudoku solution (non-duplication across rows, columns, and boxes)
-def solve_sudoku(arr):
+def brute_force_solve_sudoku(arr):
     # 'l' is a list variable that keeps the record of row and col in find_empty_location Function
     location = [0, 0]
 
@@ -302,7 +302,7 @@ def solve_sudoku(arr):
             arr[row][col] = num
 
             # return, if success, ya!
-            if solve_sudoku(arr):
+            if brute_force_solve_sudoku(arr):
                 return True
 
             # failure, unmake & try again
@@ -310,3 +310,24 @@ def solve_sudoku(arr):
 
     # this triggers backtracking
     return False
+
+
+def solve_board(sudoku: sudoku_board.Sudoku):
+    iterations = 0
+    while not verify_board(sudoku):
+        iterations += 1
+        solve_all_single_value_cells(sudoku)
+        solve_all_crosshatch_boxes(sudoku)
+        solve_all_naked_subsets(sudoku)
+
+        if iterations == 20:
+            print("Could not find a solution after 20 iterations.")
+            print("Have solved the board to the following point...")
+            sudoku.print_board()
+            print("Will now try to brute force solve the board...")
+            brute_force_solve_sudoku(sudoku.board_numbers)
+
+    if verify_board(sudoku):
+        print("Have completed the board with the following solution, after {0} iterations...".format(iterations))
+        sudoku.print_board()
+        return

@@ -213,11 +213,23 @@ def test_check_location_is_safe():
     assert not safe
 
 
-def test_solve_sudoku():
+def test_brute_force_solve_sudoku():
     board = Sudoku(boards.unsolved_easy)
-    sudoku_solver.solve_sudoku(board.board_numbers)
+    sudoku_solver.brute_force_solve_sudoku(board.board_numbers)
     assert (board.board_numbers == boards.solved_easy).all()
 
     board = Sudoku(boards.unsolved_hard)
-    sudoku_solver.solve_sudoku(board.board_numbers)
+    sudoku_solver.brute_force_solve_sudoku(board.board_numbers)
     assert (board.board_numbers == boards.solved_hard).all()
+
+
+def test_solve_board():
+    board = Sudoku(boards.unsolved_easy)
+    sudoku_solver.solve_board(board)
+    assert sudoku_solver.verify_board(board)
+    assert (board.board_numbers == boards.solved_easy).all()
+
+    board = Sudoku(boards.unsolved_very_hard)
+    sudoku_solver.solve_board(board)
+    assert sudoku_solver.verify_board(board)
+    assert (board.board_numbers == boards.solved_very_hard).all()
