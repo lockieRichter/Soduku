@@ -5,6 +5,8 @@ from numpy import unique
 
 from sudoku import sudoku_board
 
+is_cli = False
+
 
 def verify_row(sudoku: sudoku_board.Sudoku, row: int) -> bool:
     row_values = sudoku.board_numbers[row][:]
@@ -321,13 +323,20 @@ def solve_board(sudoku: sudoku_board.Sudoku):
         solve_all_naked_subsets(sudoku)
 
         if iterations == 20:
-            print("Could not find a solution after 20 iterations.")
-            print("Have solved the board to the following point...")
-            sudoku.print_board()
-            print("Will now try to brute force solve the board...")
+            if is_cli:
+                print("Could not find a solution after 20 iterations.")
+                print("Have solved the board to the following point...")
+                sudoku.print_board()
+                print("Will now try to brute force solve the board...")
             brute_force_solve_sudoku(sudoku.board_numbers)
 
     if verify_board(sudoku):
-        print("Have completed the board with the following solution, after {0} iterations...".format(iterations))
-        sudoku.print_board()
+        if is_cli:
+            print("Have completed the board with the following solution, after {0} iterations...".format(iterations))
+            sudoku.print_board()
         return
+
+
+def set_is_cli(cli: bool):
+    global is_cli
+    is_cli = cli

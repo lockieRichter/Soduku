@@ -21,8 +21,10 @@ def read_board_in():
 
 
 print("Welcome to Soduku solver...")
+sudoku_solver.set_is_cli(True)
 
 correct = "no"
+sudoku = None
 while correct.strip() != "yes":
     print("Please enter the Soduku board in rows of 9, separating numbers with a space.")
     print("Enter 0 for any number that is unknown.")

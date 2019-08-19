@@ -224,11 +224,13 @@ def test_brute_force_solve_sudoku():
 
 
 def test_solve_board():
+    sudoku_solver.set_is_cli(False)
     board = Sudoku(boards.unsolved_easy)
     sudoku_solver.solve_board(board)
     assert sudoku_solver.verify_board(board)
     assert (board.board_numbers == boards.solved_easy).all()
 
+    sudoku_solver.set_is_cli(True)
     board = Sudoku(boards.unsolved_very_hard)
     sudoku_solver.solve_board(board)
     assert sudoku_solver.verify_board(board)
