@@ -3,37 +3,30 @@ from sudoku.sudoku_board import Sudoku
 import tkinter as tk
 
 
-def get_board():
-    board_values = boards.empty
-    for r in range(9):
-        for c in range(9):
-            val = text_boxes[r][c].get()
-            if val != '' and len(val) == 1 and str.isdigit(val):
-                board_values[r][c] = text_boxes[r][c].get()
-    return board_values
-
-
-def solve_pressed():
-    btn['state'] = 'disabled'
-    sudoku_board = Sudoku(get_board())
-    sudoku_solver.set_is_cli(False)
-    sudoku_solver.solve_board(sudoku_board)
+def solve_clicked():
+    print("Solve button clicked.")
+    solve_button['state'] = 'disabled'
 
 
 window = tk.Tk()
-window.title("Sudoku")
-lbl = tk.Label(window, text="Hello")
-lbl.grid(column=10, row=10)
+window.title("Sudoku Solver")
+window.config
 text_boxes = []
-for row in range(9):
-    row_values = []
-    for column in range(9):
-        txt = tk.Entry(window, width=1)
-        txt.grid(column=column, row=row)
-        row_values.append(txt)
-    text_boxes.append(row_values)
+for row in range(13):
+    if row % 4 == 0:
+        for column in range(13):
+            txt = tk.Label(window, text="-")
+            txt.grid(row=row, column=column)
+    else:
+        for column in range(13):
+            if column % 4 == 0:
+                txt = tk.Label(window, text="|")
+            else:
+                txt = tk.Entry(window, width=1)
 
-btn = tk.Button(window, text="Solve", command=solve_pressed)
-btn.grid(column=11, row=10)
+            txt.grid(row=row, column=column)
+
+solve_button = tk.Button(window, text="Solve!", command=solve_clicked)
+solve_button.grid(row=14, columnspan=13)
 
 window.mainloop()
