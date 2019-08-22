@@ -5,8 +5,6 @@ from numpy import unique
 
 from sudoku import sudoku_board
 
-is_cli = False
-
 
 def verify_row(sudoku: sudoku_board.Sudoku, row: int) -> bool:
     row_values = sudoku.board_numbers[row][:]
@@ -156,7 +154,7 @@ def crosshatch_box(sudoku: sudoku_board.Sudoku, box_number: int) -> bool:
 
         # If there is only one possible value for this cell then add it to the board.
         if len(possible_index) == 1:
-            sudoku.board_numbers[possible_index[0][0], possible_index[0][1]] = value
+            sudoku.add_cell(possible_index[0][0], possible_index[0][1], value)
             solved_value = True
 
     return solved_value
@@ -198,7 +196,7 @@ def solve_naked_subset_column(sudoku: sudoku_board.Sudoku, column: int) -> None:
 
     for row in range(9):
         if len(cell_possible_values[row]) == 1:
-            sudoku.board_numbers[row, column] = cell_possible_values[row][0]
+            sudoku.add_cell(row, column, cell_possible_values[row][0])
 
 
 def solve_naked_subset_row(sudoku: sudoku_board.Sudoku, row: int) -> None:
@@ -221,7 +219,7 @@ def solve_naked_subset_row(sudoku: sudoku_board.Sudoku, row: int) -> None:
 
     for column in range(9):
         if len(cell_possible_values[column]) == 1:
-            sudoku.board_numbers[row, column] = cell_possible_values[column][0]
+            sudoku.add_cell(row, column, cell_possible_values[column][0])
 
 
 # Function to Find the entry in the Grid that is still  not used
@@ -282,8 +280,10 @@ def check_location_is_safe(arr, row, col, num):
 # Takes a partially filled-in grid and attempts to assign values to
 # all unassigned locations in such a way to meet the requirements
 # for Sudoku solution (non-duplication across rows, columns, and boxes)
-def brute_force_solve_sudoku(arr):
+def brute_force_solve_sudoku(sudoku: sudoku_board.Sudoku):
     # 'l' is a list variable that keeps the record of row and col in find_empty_location Function
+    arr = sudoku.board_numbers
+
     location = [0, 0]
 
     # If there is no unassigned location, we are done
@@ -301,14 +301,14 @@ def brute_force_solve_sudoku(arr):
         if check_location_is_safe(arr, row, col, num):
 
             # make tentative assignment
-            arr[row][col] = num
+            sudoku.add_cell(row, col, num)
 
             # return, if success, ya!
-            if brute_force_solve_sudoku(arr):
+            if brute_force_solve_sudoku(sudoku):
                 return True
 
             # failure, unmake & try again
-            arr[row][col] = 0
+            sudoku.add_cell(row, col, 0)
 
     # this triggers backtracking
     return False
@@ -323,20 +323,13 @@ def solve_board(sudoku: sudoku_board.Sudoku):
         solve_all_naked_subsets(sudoku)
 
         if iterations == 20:
-            if is_cli:
-                print("Could not find a solution after 20 iterations.")
-                print("Have solved the board to the following point...")
-                sudoku.print_board()
-                print("Will now try to brute force solve the board...")
-            brute_force_solve_sudoku(sudoku.board_numbers)
+            print("Could not find a solution after 20 iterations.")
+            print("Have solved the board to the following point...")
+            sudoku.print_board()
+            print("Will now try to brute force solve the board...")
+            brute_force_solve_sudoku(sudoku)
 
     if verify_board(sudoku):
-        if is_cli:
-            print("Have completed the board with the following solution, after {0} iterations...".format(iterations))
-            sudoku.print_board()
-        return
-
-
-def set_is_cli(cli: bool):
-    global is_cli
-    is_cli = cli
+        print("Have completed the board with the following solution, after {0} iterations...".format(iterations))
+        sudoku.print_board()
+    return

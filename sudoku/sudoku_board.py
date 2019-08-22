@@ -6,8 +6,9 @@ from numpy import array
 
 class Sudoku:
 
-    def __init__(self, board: List[int]) -> None:
+    def __init__(self, board: List[int], gui_enabled: bool = False) -> None:
         self.board_numbers = array(board)
+        self.gui_enabled = gui_enabled
 
     def print_board(self) -> None:
         for i in range(9):
