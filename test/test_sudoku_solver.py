@@ -1,6 +1,5 @@
 from numpy import array
 
-import sudoku_gui
 from sudoku import sudoku_solver, boards
 from sudoku.sudoku_board import Sudoku
 
@@ -235,7 +234,6 @@ def test_solve_board():
     assert sudoku_solver.verify_board(board)
     assert (board.board_numbers == boards.solved_very_hard).all()
 
-    gui = sudoku_gui.Gui()
-    board = Sudoku(boards.empty, gui)
+    board = Sudoku(boards.empty)
     sudoku_solver.solve_board(board)
     assert sudoku_solver.verify_board(board)
