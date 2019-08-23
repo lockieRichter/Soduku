@@ -1,14 +1,17 @@
+import tkinter as tk
 from typing import List
 
 import numpy
 from numpy import array
 
+from time import sleep
+
 
 class Sudoku:
 
-    def __init__(self, board: List[int], gui_enabled: bool = False) -> None:
+    def __init__(self, board: List[int], gui: tk.Tk = None) -> None:
         self.board_numbers = array(board)
-        self.gui_enabled = gui_enabled
+        self.gui = gui
 
     def print_board(self) -> None:
         for i in range(9):
@@ -27,6 +30,10 @@ class Sudoku:
 
     def add_cell(self, row: int, column: int, value: int) -> None:
         self.board_numbers[row][column] = value
+        if self.gui is not None:
+            self.gui.add_value_to_gui(row, column, value)
+            sleep(0.02)
+            self.gui.window.update()
 
     def get_box_from_cell(self, row: int, column: int) -> numpy.ndarray:
         box = None

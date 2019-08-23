@@ -322,8 +322,8 @@ def solve_board(sudoku: sudoku_board.Sudoku):
         solve_all_crosshatch_boxes(sudoku)
         solve_all_naked_subsets(sudoku)
 
-        if iterations == 20:
-            print("Could not find a solution after 20 iterations.")
+        if iterations == 5:
+            print("Could not find a solution after {0} iterations.".format(iterations))
             print("Have solved the board to the following point...")
             sudoku.print_board()
             print("Will now try to brute force solve the board...")

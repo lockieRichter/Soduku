@@ -21,7 +21,6 @@ def read_board_in():
 
 
 print("Welcome to Soduku solver...")
-sudoku_solver.set_is_cli(True)
 
 correct = "no"
 sudoku = None
