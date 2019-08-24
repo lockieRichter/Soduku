@@ -25,10 +25,14 @@ if __name__ == '__main__':
     parser = ArgumentParser()
     parser.add_argument("-g", "--gui", dest="use_gui",
                         help="Use the GUI.", default=False, action="store_true")
+    parser.add_argument("-f", "--fast", dest="solve_fast",
+                        help="Solve quickly without displaying values being added in.", default=False,
+                        action="store_true")
 
     args = parser.parse_args()
     if args.use_gui:
         gui = sudoku_gui.Gui()
+        gui.solve_fast = args.solve_fast
         gui.window.mainloop()
     else:
         print("Welcome to Soduku solver...")
