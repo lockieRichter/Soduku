@@ -13,9 +13,11 @@ class Gui:
         self.text_boxes = []
         self.create_board()
         self.solve_button = tk.Button(self.window, text="Solve!", command=self.solve_clicked)
-        self.solve_button.grid(row=14, column=0, columnspan=6)
+        self.solve_button.grid(row=14, column=0, columnspan=3)
+        self.reset_button = tk.Button(self.window, text="Reset", command=self.reset_clicked)
+        self.reset_button.grid(row=14, column=5, columnspan=3)
         self.close_button = tk.Button(self.window, text="Close", command=self.close_window)
-        self.close_button.grid(row=14, column=6, columnspan=6)
+        self.close_button.grid(row=14, column=10, columnspan=3)
         self.solve_fast = False
         self.sudoku = None
 
@@ -40,6 +42,7 @@ class Gui:
     def solve_clicked(self):
         board = boards.empty
         self.solve_button.config(state='disabled')
+        self.reset_button.config(state='disabled')
 
         for row in range(9):
             for column in range(9):
@@ -49,7 +52,21 @@ class Gui:
                     board[row][column] = int(current_box.get())
 
         self.sudoku = Sudoku(board, self)
-        sudoku_solver.solve_board(self.sudoku)
+        try:
+            sudoku_solver.solve_board(self.sudoku)
+            self.reset_button.config(state='enabled')
+            self.close_button.config(state='enabled')
+        except tk.TclError:
+            pass
+
+    def reset_clicked(self):
+        board = boards.empty
+
+        for row in range(9):
+            for column in range(9):
+                self.text_boxes[row][column].delete(0, tk.END)
+
+        self.sudoku = Sudoku(board, self)
 
     def add_value_to_gui(self, row: int, column: int, value: int):
         self.text_boxes[row][column].delete(0, tk.END)
