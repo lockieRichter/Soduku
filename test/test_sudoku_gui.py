@@ -6,9 +6,11 @@ def test_gui_fast():
     gui.solve_fast = True
     gui.add_value_to_gui(0, 0, 1)
     gui.solve_clicked()
-    gui.close_window()
     assert sudoku_solver.verify_board(gui.sudoku)
     assert (gui.sudoku.board_numbers == boards.empty_solved).all()
+    gui.reset_clicked()
+    assert not sudoku_solver.verify_board(gui.sudoku)
+    gui.close_window()
 
 
 def test_gui_slow():
