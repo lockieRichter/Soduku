@@ -3,8 +3,7 @@ Sudoku solver in python!
 
 This is a simple brute force sudoku solver, written in python.
 
-Currently it utilises a CLI to take input and print the sudoku board, but the goal is to have a simple WebStack front end, connected to a Python backend.
-
+The solver can be presented as a simple CLI or a TKinter based GUI.
 ## Difficulty levels
 * Very Easy &#9745;
 * Easy &#9745;

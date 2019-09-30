@@ -222,6 +222,9 @@ def solve_naked_subset_row(sudoku: sudoku_board.Sudoku, row: int) -> None:
             sudoku.add_cell(row, column, cell_possible_values[column][0])
 
 
+# The following code is sourced from https://www.geeksforgeeks.org/sudoku-backtracking-7/ and modified to fit the
+# solver here.
+
 # Function to Find the entry in the Grid that is still  not used
 # Searches the grid to find an entry that is still unassigned. If
 # found, the reference parameters row, col will be set the location
