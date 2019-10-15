@@ -1,7 +1,7 @@
 # Sudoku
 Sudoku solver in python!
 
-This is a simple brute force sudoku solver, written in python.
+This is a simple brute force Sudoku solver, written in python.
 
 The solver can be presented as a simple CLI or a TKinter based GUI.
 ## Difficulty levels
@@ -26,7 +26,7 @@ python3 sudoku.py -g -f
 ```
 
 ## Tests and Coverage
-To run the unit tests with coverage enter the following command form the root of the repository.
+To run the unit tests with coverage enter the following command from the root of the repository.
 ```bash
 pytest -v --cov sudoku
 ```
